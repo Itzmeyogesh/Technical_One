@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Technical One | Interactive UI</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+<style>
+.enhanced-card {
+  transition: all 0.3s ease;
+  border-radius: 20px;
+  border: 1px solid #eee;
+  overflow: hidden;
+  position: relative;
+}
+
+.enhanced-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.enhanced-card .intern-icon {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.intern-card {
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease;
+}
+
+.intern-card:hover {
+  transform: translateY(-5px);
+}
+
+.modal-content {
+  border-radius: 16px;
+  background: #f8f9fa;
+}
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: linear-gradient(to right, #74ebd5, #acb6e5);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .carousel-item img {
+  height: 80vh;
+  object-fit: cover;
+}
+
+  .navbar {
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    position: relative;
+    color: #fff !important;
+    margin-left: 18px;
+    font-weight: 500;
+  }
+
+  .nav-link:hover {
+    color: #ffc107 !important;
+    text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffc107;
+    transition: width 0.3s;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  .btn-careers {
+    background-color: #ffc107;
+    color: #000;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    transition: 0.4s ease;
+  }
+
+  .btn-careers:hover {
+    background-color: #ffda6a;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+    transform: scale(1.05);
+  }
+
+  .carousel-caption {
+  background-color: rgba(0, 0, 0, 0.45);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+  .card {
+    border: none;
+    border-radius: 16px;
+    background: #ffffffc2;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.02);
+  }
+
+  footer {
+    background: linear-gradient(to right, #203a43, #2c5364);
+    color: white;
+    text-align: center;
+    padding: 30px 10px;
+  }
+
+  .footer-logo {
+    width: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .btn-primary {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(13, 110, 253, 0.4);
+  }
+
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+  }
+
+  .intern-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+
+  .intern-card:hover {
+    transform: translateY(-5px);
+  }
+
+  /* 🔥 Add this at the end */
+  .hero {
+    margin-top: 80px; /* space below fixed navbar */
+    min-height: 80vh;
+  }
+
+  .carousel-item img {
+    height: 80vh;
+    object-fit: cover;
+  }
+  .btn-careers {
+  background: linear-gradient(135deg, #aad6e5, #f5d2ac);
+  color: #212121;
+  font-weight: bold;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(108, 153, 182, 0.5);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.btn-careers::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.3), rgba(255,255,255,0));
+  transform: skewX(-45deg);
+  z-index: 0;
+  transition: all 0.5s ease;
+}
+
+.btn-careers:hover::before {
+  left: 200%;
+}
+
+.btn-careers:hover {
+  box-shadow: 0 0 20px rgba(16, 159, 211, 0.7), 0 0 30px rgba(213, 106, 174, 0.3);
+  transform: translateY(-2px);
+}
+
+  .service-card {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.service-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+}
+.icon-wrapper {
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+</style>
+
+</head>
+<!-- Internship Apply Modal -->
+<div class="modal fade" id="internshipModal" tabindex="-1" aria-labelledby="internshipModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="internshipModalLabel">Apply for Internship</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="internForm" enctype="multipart/form-data">
+
+          <!-- Hidden Field for Internship Type -->
+          <input type="hidden" id="internshipType" name="internshipType" />
+
+          <!-- Name -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="applicantName" name="name" placeholder="Full Name" required>
+            <label for="applicantName">Full Name</label>
+          </div>
+
+          <!-- Email -->
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="applicantEmail" name="email" placeholder="Email" required>
+            <label for="applicantEmail">Email Address</label>
+          </div>
+
+          <!-- Qualification -->
+          <div class="form-floating mb-3">
+            <select class="form-select" id="qualification" name="qualification" required>
+              <option selected disabled value="">Choose...</option>
+              <option value="BCA">BCA</option>
+              <option value="MCA">MCA</option>
+              <option value="B.Tech">B.Tech</option>
+              <option value="M.Tech">M.Tech</option>
+              <option value="Diploma">Diploma</option>
+              <option value="Other">Other</option>
+            </select>
+            <label for="qualification">Qualification</label>
+          </div>
+
+          <!-- College / University -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="college" name="college" placeholder="College/University" required>
+            <label for="college">College / University</label>
+          </div>
+
+          <!-- Location -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="location" name="location" placeholder="Location" required>
+            <label for="location">Your Location</label>
+          </div>
+
+          <!-- Reason -->
+          <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Why do you want to join?" id="reason" name="reason" style="height: 100px" required></textarea>
+            <label for="reason">Why do you want this internship?</label>
+          </div>
+
+          <!-- Attach CV -->
+          <div class="mb-3">
+            <label for="cvUpload" class="form-label">Attach Your CV (PDF, DOC)</label>
+            <input class="form-control" type="file" id="cvUpload" name="cv" accept=".pdf, .doc, .docx" required>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-success w-100 mt-2">Submit Application</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container-fluid">
+    <!-- Updated Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="https://media.licdn.com/dms/image/v2/D4D0BAQHl7RQ8ksTPAg/company-logo_200_200/company-logo_200_200/0/1729129186859?e=2147483647&v=beta&t=KauJJtVhXe6CdPATtYprfbYITVbMNqy2pJsVYLfYf6E" 
+           alt="Technical One Logo" 
+           style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; margin-right: 10px;" />
+      <span class="fw-bold">Technical One</span>
+    </a>
+
+    <!-- Toggler for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#internships">Internships</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item">
+          
+       <button class="btn btn-careers ms-lg-3 mt-2 mt-lg-0" onclick="window.location.href='careers.html'">Careers</button>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  <!-- Hero with Carousel -->
+  <section id="home" class="hero p-0">
+  <div id="heroCarousel" class="carousel slide carousel-fade w-100" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      <!-- Slide 1 -->
+      <div class="carousel-item active">
+        <img src="https://mycodelesswebsite.com/wp-content/uploads/2025/04/Mercedes-Carousel-Websites.jpg" class="d-block w-100" alt="Slide 1">
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Empowering Innovation Through Technology</h1>
+          <p>We bring your ideas to life with the latest tools.</p>
+          <a href="collaboration.html" class="btn btn-warning btn-sm mt-2">Let’s Talk</a>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-item">
+        <img src="https://cdn.dribbble.com/userupload/13790197/file/original-35ca4d7cce068e8492cf769762804aa4.jpg?resize=400x0" class="d-block w-100" alt="Slide 2">
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Web and App Development</h1>
+          <p>Crafting fast and reliable digital solutions for your brand.</p>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-item">
+        <img src="https://i.pinimg.com/236x/f0/ab/5f/f0ab5ff4cc93a249348af9fbb2d9bd5b.jpg" class="d-block w-100" alt="Slide 3">
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Grow Your Skills with Us</h1>
+          <p>Join hands-on internship programs designed to launch your career.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Carousel Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</section>
+
+
+  <!-- Register Form -->
+
+  <!-- About -->
+  <!-- About -->
+<section id="about" class="py-5" style="background: linear-gradient(to right, #f0f2f5, #dff6f0); position: relative; overflow: hidden;">
+  <div class="container position-relative" style="z-index: 2;">
+    <!-- Heading -->
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="text-primary fw-bold">About Technical One</h2>
+      <p class="lead text-muted">Where Technology Meets Creativity</p>
+      <hr class="w-25 mx-auto" style="border-top: 3px solid #ffc107;" />
+    </div>
+
+    <!-- Image + Text Row -->
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-4" data-aos="fade-right">
+        <img src="https://media.licdn.com/dms/image/v2/D5622AQFTP_pe2FsBXQ/feedshare-shrink_800/B56ZXq_2KhGsAg-/0/1743404361589?e=2147483647&v=beta&t=rymdU9mbncgu9fND0D35XM2SPyenulxSvcWrl2_nXHE" class="img-fluid rounded shadow-lg" alt="About Technical One" />
+      </div>
+      <div class="col-md-6" data-aos="fade-left">
+        <h4 class="fw-bold text-dark">Empowering Innovation Through Technology</h4>
+        <p class="text-muted">
+          At <strong>Technical One</strong>, we specialize in crafting digital solutions that elevate ideas into scalable, impactful platforms. Whether you're a startup or a growing enterprise, we are your trusted technology partner.
+        </p>
+        <ul class="list-unstyled mt-4">
+          <li class="mb-3 d-flex align-items-start">
+            <i class="bi bi-lightbulb text-warning fs-4 me-3 animate__animated animate__pulse animate__infinite"></i>
+            <div><strong>Creative Thinking:</strong> Innovative approaches tailored to real-world challenges.</div>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <i class="bi bi-gear-wide-connected text-primary fs-4 me-3 animate__animated animate__spin animate__infinite"></i>
+            <div><strong>Technical Expertise:</strong> From frontend finesse to backend brilliance and AI integration.</div>
+          </li>
+          <li class="mb-3 d-flex align-items-start">
+            <i class="bi bi-people text-success fs-4 me-3 animate__animated animate__fadeInDown animate__infinite"></i>
+            <div><strong>Client Focus:</strong> We value your vision and make it the center of our strategy.</div>
+          </li>
+        </ul>
+        <a href="#services" class="btn btn-warning btn-sm px-4 mt-2 shadow">Explore Our Services</a>
+      </div>
+    </div>
+
+    <!-- Vision & Mission Cards -->
+    <div class="row mt-5">
+      <div class="col-md-6 mb-4" data-aos="fade-up">
+        <div class="p-4 bg-white bg-opacity-75 shadow rounded text-center h-100">
+          <i class="bi bi-eye text-info fs-1 mb-3"></i>
+          <h5 class="fw-bold text-dark">Our Vision</h5>
+          <p class="text-muted">
+            To be a globally admired tech partner delivering innovative, sustainable, and scalable solutions that empower both people and businesses.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="p-4 bg-white bg-opacity-75 shadow rounded text-center h-100">
+          <i class="bi bi-rocket-takeoff text-danger fs-1 mb-3"></i>
+          <h5 class="fw-bold text-dark">Our Mission</h5>
+          <p class="text-muted">
+            To craft high-quality web, mobile, and data-driven solutions while nurturing creativity, teamwork, and lifelong learning in our community.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative Background Effect -->
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.05;"></div>
+</section>
+
+  <!-- Services -->
+  <section id="services" class="py-5 text-white" style="background: linear-gradient(to right, #0f2027, #203a43, #2c5364);">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold" data-aos="zoom-in-up" data-aos-duration="700">Our Services</h2>
+
+    <div class="row g-4 text-center">
+      <!-- Web Development -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="service-card p-4 rounded-4 shadow-lg bg-white bg-opacity-10 backdrop-blur text-white h-100 transition-all">
+          <div class="icon-wrapper mx-auto mb-3">
+            <i class="bi bi-laptop fs-1 text-warning"></i>
+          </div>
+          <h5 class="fw-bold">Web Development</h5>
+          <p class="small text-light">We build fast, responsive websites using modern technologies like React and Bootstrap to meet your needs.</p>
+        </div>
+      </div>
+
+      <!-- App Development -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-card p-4 rounded-4 shadow-lg bg-white bg-opacity-10 backdrop-blur text-white h-100 transition-all">
+          <div class="icon-wrapper mx-auto mb-3">
+            <i class="bi bi-phone fs-1 text-warning"></i>
+          </div>
+          <h5 class="fw-bold">App Development</h5>
+          <p class="small text-light">Custom Android/iOS apps tailored for scalability, performance, and a seamless user experience.</p>
+        </div>
+      </div>
+
+      <!-- Graphics Design -->
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-card p-4 rounded-4 shadow-lg bg-white bg-opacity-10 backdrop-blur text-white h-100 transition-all">
+          <div class="icon-wrapper mx-auto mb-3">
+            <i class="bi bi-brush fs-1 text-warning"></i>
+          </div>
+          <h5 class="fw-bold">Graphics Design</h5>
+          <p class="small text-light">Creative logos, posters, and social media designs that bring your brand story to life.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Internships -->
+<!-- Internships Section -->
+<section id="internships" class="py-5" style="background: linear-gradient(to right, #e0f7fa, #e1f5fe); position: relative;">
+  <div class="container">
+    <h2 class="text-center text-primary fw-bold mb-5" data-aos="fade-up">Internships</h2>
+    <div class="row g-4">
+
+      <!-- Card Template Example -->
+      <div class="col-md-6" data-aos="fade-up">
+        <div class="intern-card enhanced-card position-relative p-4 rounded-4 bg-white bg-opacity-75 shadow-sm h-100">
+          <div class="intern-icon text-white bg-primary rounded-circle d-flex align-items-center justify-content-center mb-3">
+            <i class="bi bi-laptop fs-4"></i>
+          </div>
+          <h5 class="fw-bold text-primary">Web Development Internship</h5>
+          <p class="text-muted">Hands-on with HTML, CSS, JS, and frameworks like Bootstrap/React.</p>
+          <ul class="text-muted small">
+            <li>💻 Live client projects</li>
+            <li>📜 Certificate + GitHub + LOR</li>
+            <li>👨‍🏫 1-on-1 mentorship</li>
+          </ul>
+          <button class="btn btn-primary btn-sm mt-2 w-100" data-bs-toggle="modal" data-bs-target="#internshipModal" data-title="Web Development Internship">Apply Now</button>
+        </div>
+      </div>
+
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="intern-card enhanced-card position-relative p-4 rounded-4 bg-white bg-opacity-75 shadow-sm h-100">
+          <div class="intern-icon text-white bg-danger rounded-circle d-flex align-items-center justify-content-center mb-3">
+            <i class="bi bi-cup-hot fs-4"></i>
+          </div>
+          <h5 class="fw-bold text-primary">Java Internship</h5>
+          <p class="text-muted">Master Java OOP, JDBC, Swing & build desktop/web apps.</p>
+          <ul class="text-muted small">
+            <li>🧪 Mini projects</li>
+            <li>🎓 Certificate & guidance</li>
+            <li>📅 Weekly assignments</li>
+          </ul>
+          <button class="btn btn-primary btn-sm mt-2 w-100" data-bs-toggle="modal" data-bs-target="#internshipModal" data-title="Java Internship">Apply Now</button>
+        </div>
+      </div>
+
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="intern-card enhanced-card position-relative p-4 rounded-4 bg-white bg-opacity-75 shadow-sm h-100">
+          <div class="intern-icon text-white bg-warning rounded-circle d-flex align-items-center justify-content-center mb-3">
+            <i class="bi bi-bar-chart-line fs-4"></i>
+          </div>
+          <h5 class="fw-bold text-primary">Power BI Internship</h5>
+          <p class="text-muted">Learn BI fundamentals, DAX, dashboards & analytics.</p>
+          <ul class="text-muted small">
+            <li>📊 Live dashboards</li>
+            <li>👥 Client exposure</li>
+            <li>📜 Certificate</li>
+          </ul>
+          <button class="btn btn-primary btn-sm mt-2 w-100" data-bs-toggle="modal" data-bs-target="#internshipModal" data-title="Power BI Internship">Apply Now</button>
+        </div>
+      </div>
+
+      <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div class="intern-card enhanced-card position-relative p-4 rounded-4 bg-white bg-opacity-75 shadow-sm h-100">
+          <div class="intern-icon text-white bg-success rounded-circle d-flex align-items-center justify-content-center mb-3">
+            <i class="bi bi-cpu fs-4"></i>
+          </div>
+          <h5 class="fw-bold text-primary">AI / ML Internship</h5>
+          <p class="text-muted">Work on Python, Scikit-learn, NLP, and vision projects.</p>
+          <ul class="text-muted small">
+            <li>📁 Real-world datasets</li>
+            <li>📚 Premium study material</li>
+            <li>🔗 Certifications + GitHub</li>
+          </ul>
+          <button class="btn btn-primary btn-sm mt-2 w-100" data-bs-toggle="modal" data-bs-target="#internshipModal" data-title="AI / ML Internship">Apply Now</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-5" style="background: linear-gradient(to right, #e3f2fd, #f1f8ff);">
+    <div class="container">
+      <h2 class="text-center mb-4 text-primary fw-bold" data-aos="fade-up">Contact Us</h2>
+      <div class="row justify-content-center">
+        <div class="col-lg-6" style="max-width: 600px;" data-aos="zoom-in">
+          <form>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="contactName" placeholder="Your Name" required>
+              <label for="contactName">Your Name</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="contactEmail" placeholder="name@example.com" required>
+              <label for="contactEmail">Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea class="form-control" id="contactMessage" placeholder="Your message" style="height: 120px" required></textarea>
+              <label for="contactMessage">Message</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm px-4 py-1">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+ <footer style="background: linear-gradient(to right, #203a43, #2c5364); color: white; text-align: center; padding: 30px 10px;">
+  <p>
+    <img src="https://media.licdn.com/dms/image/v2/D4D0BAQHl7RQ8ksTPAg/company-logo_200_200/company-logo_200_200/0/1729129186859?e=2147483647&v=beta&t=KauJJtVhXe6CdPATtYprfbYITVbMNqy2pJsVYLfYf6E" 
+         class="footer-logo" 
+         alt="Technical One Logo" 
+         style="width: 30px; height: 30px; margin-right: 10px; vertical-align: middle; border-radius: 50%;">
+    Made with ❤️ by <strong>Technical One</strong>
+  </p>
+
+  <div class="mt-3">
+    <!-- Facebook (placeholder) -->
+    <a href="#" class="text-white me-3" target="_blank" rel="noopener">
+      <i class="bi bi-facebook fs-5"></i>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/technical_one?igsh=cmJtOXg0MHY3dWsx" 
+       class="text-white me-3" 
+       target="_blank" 
+       rel="noopener">
+      <i class="bi bi-instagram fs-5"></i>
+    </a>
+
+    <!-- LinkedIn -->
+    <a href="https://www.linkedin.com/company/technical-one/" 
+       class="text-white" 
+       target="_blank" 
+       rel="noopener">
+      <i class="bi bi-linkedin fs-5"></i>
+    </a>
+  </div>
+</footer>
+
+<script>
+  const internshipModal = document.getElementById('internshipModal');
+  internshipModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const title = button.getAttribute('data-title');
+    document.getElementById('internshipType').value = title;
+    internshipModal.querySelector('#internshipModalLabel').textContent = `Apply for ${title}`;
+  });
+</script>
+
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+  </script>
+  <!-- AOS CSS -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+
+  
+</body>
+</html>
